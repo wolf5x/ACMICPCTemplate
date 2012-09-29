@@ -1,0 +1,92 @@
+\subsection{基本函数}
+    \subsubsection{Point定义}
+        \begin{lstlisting}[language=c++]
+struct Point
+{
+    double x, y;
+    Point() {}
+    Point(double _x, double _y)
+    {
+        x = _x, y = _y;
+    }
+    Point operator -(const Point &b)const
+    {
+        return Point(x - b.x, y - b.y);
+    }
+    double operator *(const Point &b)const
+    {
+        return x * b.y - y * b.x;
+    }
+    double operator &(const Point &b)const
+    {
+        return x * b.x + y * b.y;
+    }
+};
+        \end{lstlisting}
+    \subsubsection{Line定义}
+        \begin{lstlisting}[language=c++]
+struct Line
+{
+    Point s, e;
+    double k;
+    Line() {}
+    Line(Point _s, Point _e)
+    {
+        s = _s, e = _e;
+        k = atan2(e.y - s.y, e.x - s.x);
+    }
+    Point operator &(const Line &b)const
+    {
+        Point res = s;
+        //注意：有些题目可能会有直线相交或者重合情况
+        //可以把返回值改成`pair<Point,int>`来返回两直线的状态。
+        double t = ((s - b.s) * (b.s - b.e)) / ((s - e) * (b.s - b.e));
+        res.x += (e.x - s.x) * t;
+        res.y += (e.y - s.y) * t;
+        return res;
+    }
+};
+        \end{lstlisting}
+    \subsubsection{距离：两点距离}
+        \begin{lstlisting}[language=c++]
+double dist2(Point a, Point b)
+{
+    return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);
+}
+        \end{lstlisting}
+    \subsubsection{距离：点到线段距离}
+        res：点到线段最近点
+        \begin{lstlisting}[language=c++]
+double dist2(Point p1, Point p2, Point p)
+{
+    Point res;
+    double a, b, t;
+    a = p2.x - p1.x;
+    b = p2.y - p1.y;
+    t = ((p.x - p1.x) * a + (p.y - p1.y) * b) / (a * a + b * b);
+    if (t >= 0 && t <= 1)
+    {
+        res.x = p1.x + a * t;
+        res.y = p1.y + b * t;
+    }
+    else
+    {
+        if (dist2(p, p1) < dist2(p, p2))
+            res = p1;
+        else
+            res = p2;
+    }
+    return dist2(p, res);
+}
+        \end{lstlisting}
+    \subsubsection{面积：多边形}
+        点按逆时针排序。
+        \begin{lstlisting}[language=c++]
+double CalcArea(Point p[], int n)
+{
+    double res = 0;
+    for (int i = 0; i < n; i++)
+        res += (p[i] * p[(i + 1) % n]) / 2;
+    return res;
+}
+        \end{lstlisting}

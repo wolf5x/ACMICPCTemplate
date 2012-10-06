@@ -102,4 +102,18 @@ bool inter(Line l1,Line l2)
             ((l1.s-l2.s)*(l2.e-l2.s))*((l1.e-l2.s)*(l2.e-l2.s)) <= 0);
 }
         \end{lstlisting}
-	
+    \subsubsection{求解：点到线最近点}
+	\begin{lstlisting}[language=c++]
+Point NPT(Point P, Line L)
+{
+    Point result;
+    double a, b, t;
+    a = L.e.x - L.s.x;
+    b = L.e.y - L.s.y;
+    t = ((P.x - L.s.x) * a + (P.y - L.s.y) * b ) / (a * a + b * b);
+    //`如果t小于0或者大于1,说明最近点在L.s和L.e这条线段之外`
+    result.x = L.s.x + a * t;
+    result.y = L.s.y + b * t;
+    return result;
+}
+	\end{lstlisting}

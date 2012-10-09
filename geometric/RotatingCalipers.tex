@@ -20,6 +20,7 @@ void solve(Point p[],int n)
     \subsubsection{两个凸包}
 	注意初始点的选取，代码只是个示例。\\
 	有时候答案需要取solve(p0,n,p1,m)和solve(p1,m,p0,n)的最优值。\\
+	何老鱼说我的是错的。。\\
 	\begin{lstlisting}[language=c++]
 void solve(Point p0[],int n,Point p1[],int m)
 {
@@ -86,7 +87,7 @@ void solve()
             sd++;
         }
 
-        //卡在p[a],p[b],p[c],p[d]上
+        //`卡在p[a],p[b],p[c],p[d]上`
         sa++;
     }
 }

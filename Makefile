@@ -1,5 +1,6 @@
 all: template.pdf
-
+	mv template.pdf pdf/template.pdf
+	
 %.pdf: %.dvi
 	dvipdfmx $<
 
@@ -8,5 +9,5 @@ all: template.pdf
 	latex $<
 
 clean:
-	rm -f *.dvi
-	rm -f *.pdf
+	rm -f template.dvi
+	rm -f template.pdf

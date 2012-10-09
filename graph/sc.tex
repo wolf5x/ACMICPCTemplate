@@ -1,0 +1,61 @@
+\subsection{强联通}
+    hehe那弱逼的版，找个时间测一下。\\
+    \begin{lstlisting}[language=c++]
+int dfsnum[5005];
+int low[5005];
+int stack[5005];
+int top;
+int ans;
+int an;
+int be[5005];
+int flag[5005];
+void dfs(int x)
+{
+	dfsnum[x]=low[x]=ans++;
+	stack[++top]=x;
+	flag[x]=1;
+	int i;
+	for(i=0;i<q[x].size();i++)
+	{
+		int y=q[x][i];
+		int j;
+		if(dfsnum[y]==-1)
+		{
+			dfs(y);
+			low[x]=min(low[x],low[y]);
+		}
+		else if(flag[y]==1)
+		{
+			low[x]=min(low[x],dfsnum[y]);
+		}
+	}
+	if(dfsnum[x]==low[x])
+	{
+		while(stack[top]!=x)
+		{
+			flag[stack[top]]=0;
+			be[stack[top]]=an;
+			top--;
+		}
+		flag[x]=0;
+		be[x]=an++;
+		top--;
+	}
+}
+    \end{lstlisting}
+    调用：\\
+    \begin{lstlisting}
+memset(dfsnum,-1,sizeof(dfsnum));
+memset(flag,0,sizeof(flag));
+top=0;
+an=0;
+ans=0;
+int i;
+for(i=1;i<=n;i++)//（2*n对于2sat）
+{
+	if(dfsnum[i]==-1)
+	{
+		dfs(i);
+	}
+}
+    \end{lstlisting}

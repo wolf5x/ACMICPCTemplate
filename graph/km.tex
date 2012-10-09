@@ -1,0 +1,90 @@
+\subsection{KM}
+    还是hehe的版\\
+    配合华华的KM看吧。\\
+    \begin{lstlisting}[language=c++]
+int w[16][16];
+int l[16];
+int r[16];
+int low[16];
+int n;
+int flag1[16];
+int flag[16];
+int f[16];
+int qw[16];
+const int INF=10000000;
+int ans;
+int dfs(int x)
+{
+	flag1[x]=1;
+	int i;
+	for(i=1;i<=n;i++)
+	{
+		if(flag[i]==0&&w[x][i]==l[x]+r[i])
+		{
+			flag[i]=1;
+			if(f[i]==0||dfs(f[i]))
+			{
+				f[i]=x;
+				return 1;
+			}
+		}
+		low[i]=min(low[i],w[x][i]-l[x]-r[i]);
+//(l[x]+r[i]-w[x][i]最大匹配)
+	}
+	return 0;
+}
+int km(void)
+{
+	memset(f,0,sizeof(f));
+	memset(r,0,sizeof(r));
+	int i;
+	for(i=1;i<=n;i++)
+	{
+		int j;
+		int mi=INF;
+		for(j=1;j<=n;j++)
+		{
+			if(w[i][j]<mi)
+				mi=w[i][j];
+		}
+		l[i]=mi;
+	}
+//(赋值为边权最大值。。最大匹配)
+	for(i=1;i<=n;i++)
+	{
+		while(1)
+		{
+			memset(flag,0,sizeof(flag));
+			memset(flag1,0,sizeof(flag1));
+			int j;
+			for(j=1;j<=n;j++)
+				low[j]=INF;
+			if(dfs(i))
+				break;
+			int d=INF;
+			for(j=1;j<=n;j++)
+			{
+				if(flag[j]==0)
+				{
+					d=min(d,low[j]);
+				}
+			}
+			for(j=1;j<=n;j++)
+			{
+				if(flag1[j])
+					l[j]+=d;(-为最大匹配)
+				if(flag[j])
+					r[j]-=d;（+为最大匹配）
+			}
+		}
+	}
+	int sum=0;
+	int j;
+	for(j=1;j<=n;j++)
+	{
+		sum+=l[j];
+		sum+=r[j];
+	}
+	return sum;
+}
+    \end{lstlisting}

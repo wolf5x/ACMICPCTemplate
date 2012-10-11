@@ -32,13 +32,3 @@
 	\item 把$n-k$，$k$做同样的处理，得到$S2$，$S3$
     \end{enumerate}
     则$\binom{n}{k}$中素因子$P$的个数：$\frac{S2+S3-S1}{P-1}$\\
-    \\
-    枚举长为$n$含$k$个$1$的$01$串：\\
-    \begin{lstlisting}[language=c++]
-for (int s = (1 << k)-1,u = 1 << n;s < u;)
-{
-    ...;
-    int b = s & -s;
-    s = (s+b)|(((s^(s+b))>>2)/b);
-}
-    \end{lstlisting}

@@ -3,9 +3,10 @@
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{xcolor}
+\usepackage{type1cm}
 
+\usepackage{geometry}
 %\usepackage[landscape]{geometry}
-\usepackage[landscape]{geometry}
 \geometry{left=3cm,right=1cm,top=1.5cm,bottom=1.5cm}
 
 \usepackage{listings}
@@ -33,19 +34,27 @@
 
 \begin{document}
 \begin{CJK}{UTF8}{gbsn}
-
+    
+    \newgeometry{left=1cm,right=1cm,top=1.5cm,bottom=1.5cm}
     \begin{titlepage}
+	~
+	\clearpage
+	\pagestyle{empty}
+	
         \begin{center}
-        \hrule\ \\[5pt]
-        \Huge \textsc{ACM Template}\\[8pt]
-        \hrule\ \\[300pt]
+        ~\\[160pt]
+        
+        \hrule\ \\[8pt]
+        \fontsize{48pt}{\baselineskip}\selectfont  \textsc{ACM Template}\\[8pt]
+        \hrule\ \\[340pt]
 
-        \huge Orz\\[8pt]
-        \Large Last build at \today \\[210pt]
+        \huge UESTC\_Lasagne\\[8pt]
+        \Large Last build at \today
         \end{center}
     \end{titlepage}
 
-
+    \restoregeometry
+    
     \tableofcontents
     \clearpage
 

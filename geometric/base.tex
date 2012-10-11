@@ -117,3 +117,31 @@ Point NPT(Point P, Line L)
     return result;
 }
 	\end{lstlisting}
+    \subsubsection{矩阵：三维平移缩放旋转}
+	按向量$\overrightarrow{(x,y,z)}$平移：
+	\[\begin{pmatrix}
+	1 & 0 & 0 & x\\ 
+	0 & 1 & 0 & y\\ 
+	0 & 0 & 1 & z\\ 
+	0 & 0 & 0 & 1
+	\end{pmatrix}\]\\
+	\\
+	按比例$(x,y,z)$缩放：
+	\[\begin{pmatrix}
+	x & 0 & 0 & 0\\ 
+	0 & y & 0 & 0\\ 
+	0 & 0 & z & 0\\ 
+	0 & 0 & 0 & 1
+	\end{pmatrix}\]\\
+	\\
+	绕向量$\overrightarrow{(x,y,z)}$旋转$angle$角度：
+	\[\begin{pmatrix}
+	x^2\times (1-c)+c & x\times y\times (1-c)-z\times s & x\times z\times (1-c)+y\times s & 0\\ 
+	y\times x\times (1-c)+z\times s & y^2\times (1-c)+c & y\times z\times (1-c)-x\times s & 0\\ 
+	x\times z\times (1-c)-y\times s & y\times z\times (1-c)+x\times s & z^2\times (1-c)+c & 0\\ 
+	0 & 0 & 0 & 1
+	\end{pmatrix}
+	\begin{cases}
+	s=sin(angle)\\
+	c=cos(angle)
+	\end{cases}\]

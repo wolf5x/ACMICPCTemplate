@@ -1,0 +1,141 @@
+\subsection{最大团以及相关知识}
+    \begin{description}
+	\item[独立集：] 独立集是指图的顶点集的一个子集,该子集的导出子图不含边.如果一个独立集不是任何一个独立集的子集, 那么称这个独立集是一个极大独立集.一个图中包含顶点数目最多的独立集称为最大独立集。最大独立集 一定是极大独立集，但是极大独立集不一定是最大的独立集。
+	\item[支配集：] 与独立集相对应的就是支配集，支配集也是图顶点集的一个子集，设$S$是图$G$的一个支配集，则对于图中的任意一个顶点$u$，要么属于集合$s$, 要么与$s$中的顶点相邻。在$s$中除去任何元素后$s$不再是支配集，则支配集$s$是极小支配集。称$G$的所有支配集中顶点个数最 少的支配集为最小支配集，最小支配集中的顶点个数成为支配数。
+	\item[最小点的覆盖：] 最小点的覆盖也是图的顶点集的一个子集，如果我们选中一个点，则称这个点将以他为端点的所有边都覆盖了。将图中所有的边都覆盖所用顶点数最少，这个集合就是最小的点的覆盖。
+	\item[最大团：] 图$G$的顶点的子集，设$D$是最大团，则$D$中任意两点相邻。若$u$，$v$是最大团，则$u$,$v$有边相连，其补图$u$,$v$没有边相连，所以图$G$的最大团$=$其补图的最大独立集。给定无向图$G=(V,E)$，如果$U$属于$V$，并且对于任意$u$,$v$包含于$U$ 有$<u,v>$包含于$E$，则称$U$是$G$的完全子图，$G$的完全子图$U$是$G$的团，当且仅当$U$不包含在$G$的更大的完全子图中，$G$的最大团是指$G$中所含顶点数目最多的团。如果$U$属于$V$，并且对于任意$u,v$包含于$U$有$<u,v>$不包含于$E$，则称$U$是$G$的空子图，$G$的空子图U是G的独立集，当且仅当$U$不包含在$G$的更大的独立集，$G$的最大团是指$G$中所含顶点数目最多的独立集。
+	\item[一些性质：] 最大独立集$+$最小覆盖集$=V$，最大团$=$补图的最大独立集，最小覆盖集$=$最大匹配
+    \end{description}
+    
+    \begin{lstlisting}[language=c++]
+////////////////////////////////////////////////////////////////////////
+//经典NPC：最大团问题
+//maximum clique
+//dist是两点的距离，需要初始化
+//double和int看情况而定
+//n是顶点数
+//从1开始编号
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cmath>
+using namespace std;
+
+int n,k;
+struct graph
+{
+    int x,y;
+}G[55];
+int dist[55][55];
+bool g[55][55];
+int list[55][55],s[55],degree[55],behide[55];
+int found,curmax,curobj;
+
+int distanc(graph a,graph b)
+{
+    return ((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y));
+}
+
+void sortdegree()
+{
+    for (int i = 1;i <= n;i++)
+    {
+        int k = i;
+        for (int j = i+1;j <= n;j++)
+            if (degree[j] < degree[k])
+                k = j;
+        if (k != i)
+        {
+            swap(degree[i],degree[k]);
+            for (int l = 1;l <= n;l++)
+                swap(g[i][l],g[k][l]);
+            for (int l = 1;l <= n;l++)
+                swap(g[l][i],g[l][k]);
+        }
+    }
+}
+
+void dfs(int d)
+{
+    if (d-1 > curmax)
+    {
+        found = 1;
+        return;
+    }
+    for (int i = 1;i < list[d-1][0]-curmax+d;i++)
+    if (!found && d+behide[list[d-1][i]+1] > curmax
+        && (list[d-1][0] == i || d+behide[list[d-1][i+1]] > curmax))
+        {
+            list[d][0] = 0;
+            for (int j = i+1;j <= list[d-1][0];j++)
+            if (g[list[d-1][j]][list[d-1][i]])
+                list[d][++list[d][0]] = list[d-1][j];
+            if (list[d][0] == 0 || d+behide[list[d][1]] > curmax)
+                dfs(d+1);
+        }
+}
+
+void solve()
+{
+    sortdegree();
+    behide[n+1] = 0;
+    behide[n] = 1;
+    for (int i = n-1;i > 0;i--)
+    {
+        curmax = behide[i+1];
+        found = list[1][0] = 0;
+        for (int j = i+1;j <= n;j++)
+        if (g[j][i])
+            list[1][++list[1][0]] = j;
+        dfs(2);
+        behide[i] = curmax+found;
+
+    }
+}
+
+int check(int mindist)
+{
+    memset(g,false,sizeof(g));
+    for (int i = 1;i < n;i++)
+    for (int j = i+1;j <= n;j++)
+        if (dist[i][j] >= mindist)//这个是约束条件~
+            g[i][j] = g[j][i] = true;
+    for (int i = 1;i <= n;i++)
+    {
+        degree[i] = 0;
+        for (int j = 1;j <= n;j++)
+            degree[i] += g[i][j];
+    }
+    solve();
+    return behide[1];
+}
+
+int main()
+{
+    while (scanf("%d%d",&n,&k) != EOF)
+    {
+        for (int i = 1;i <= n;i++)
+            scanf("%d%d",&G[i].x,&G[i].y);
+        int l,r,mid;
+        r = l = 0;
+        for (int i = 1;i < n;i++)
+        for (int j = i+1;j <= n;j++)
+        {
+            dist[i][j] = distanc(G[i],G[j]);
+            if (dist[i][j] > r)
+                r = dist[i][j];
+            dist[j][i] = dist[i][j];
+        }
+        r++;
+        while (l+1 < r)
+        {
+            mid = (l+r)/2;
+            if (check(mid) >= k)
+                l = mid;
+            else
+                r = mid;
+        }
+        printf("%.2lf\n",sqrt((double)l));
+    }
+}
+    \end{lstlisting}

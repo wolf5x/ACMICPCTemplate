@@ -1,6 +1,38 @@
 \subsection{Dancing Links}
-    仰慕罗神。\\
-    \begin{lstlisting}[language=c++]
+    \subsubsection{估价函数}
+	\begin{lstlisting}[language=c++]
+int h()
+{
+    bool vis[100];
+    memset(vis,false,sizeof(vis));
+    int i,j,k,res=0,mi,col;
+    while(1)
+    {
+        mi=inf;
+        for(i=R[head]; i!=head&&i<=2*n; i=R[i])
+            if(mi>nk[i]&&!vis[i])
+            {
+                mi=nk[i];
+                col=i;
+            }
+        if(mi==inf)
+            break;
+        res++;
+        vis[col]=true;
+        for(j=D[col]; j!=col; j=D[j])
+            for(k=R[j]; k!=j; k=R[k])
+            {
+                if(C[k]>2*n)
+                    continue;
+                vis[C[k]]=true;
+            }
+    }
+    return res;
+}
+	\end{lstlisting}
+	
+    \subsubsection{DLX}
+	\begin{lstlisting}[language=c++]
 void remove1(int col)
 {
     int i,j;
@@ -130,4 +162,4 @@ bool DLX(int d,int deep)
     resume1(col);
     return false;
 }
-    \end{lstlisting}
+	\end{lstlisting}

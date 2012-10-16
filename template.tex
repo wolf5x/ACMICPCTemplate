@@ -5,10 +5,11 @@
 \usepackage{xcolor}
 \usepackage{type1cm}
 \usepackage{booktabs}
-
 \usepackage{geometry}
 %\usepackage[landscape]{geometry}
-\geometry{left=3cm,right=1cm,top=1.5cm,bottom=1.5cm}
+\geometry{left=3cm,right=1cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage{fancyhdr}
 
 \usepackage{listings}
 
@@ -18,7 +19,8 @@
     basicstyle=\ttfamily\normalsize,
     numbers=left,
     numberstyle=\normalsize,
-    %keywordstyle=\color{blue!70}, commentstyle=\color{red!50!green!50!blue!50},
+    %keywordstyle=\color{blue!70}, 
+    commentstyle=\ttfamily\normalsize,
     frame=leftline,
     %rulesepcolor=\color{red!20!green!20!blue!20},
     escapeinside=``,
@@ -35,7 +37,16 @@
 
 \begin{document}
 \begin{CJK}{UTF8}{gbsn}
-    
+    \pagestyle{fancy}
+    \lhead{} 
+    \chead{} 
+    \rhead{\bfseries ACM Template} 
+    \lfoot{UESTC\_Lasagne} 
+    \cfoot{}
+    \rfoot{\thepage} 
+    \renewcommand{\headrulewidth}{0.4pt} 
+    \renewcommand{\footrulewidth}{0.4pt}
+
     \newgeometry{left=1cm,right=1cm,top=1.5cm,bottom=1.5cm}
     \begin{titlepage}
 	~

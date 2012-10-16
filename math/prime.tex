@@ -1,22 +1,23 @@
 \subsection{线性筛}
-    我弱逼。\\
     \begin{lstlisting}[language=c++]
-void getprime()
+int N;
+bool isPrime[10001];
+int prime[10000];
+void getPrime(int n)
 {
-    tot = 0;
-    memset(isprime,true,sizeof(isprime));
-    for (int i = 2;i <= 40000000;i++)
+    memset(isPrime,1,++n);
+    N=0;
+    isPrime[0]=isPrime[1]=0;
+    for (int i=2;i<n;i++)
     {
-	if (isprime[i] == true)
-	{
-	    tot++;
-	    prime[tot] = i;
-	}
-	for (int j = 1;j <= tot && i*prime[j] <= 40000000;j++)
-	{
-	    isprime[i*prime[j]] = false;
-	    if (i%prime[j] == 0) break;
-	}
+        if (isPrime[i])
+            prime[N++]=i;
+        for (int j=0;j<N && prime[j]*i<n;j++)
+        {
+            isPrime[i*prime[j]]=0;
+            if (i%prime[j]==0)
+                break;
+        }
     }
 }
     \end{lstlisting}

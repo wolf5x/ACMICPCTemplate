@@ -21,8 +21,15 @@ struct Point
     {
         return x * b.x + y * b.y;
     }
+    void transXY(double B)
+    {
+        double tx = x,ty = y;
+        x = tx*cos(B) - ty*sin(B);
+        y = tx*sin(B) + ty*cos(B);
+    }
 };
         \end{lstlisting}
+        
     \subsubsection{Line定义}
         \begin{lstlisting}[language=c++]
 struct Line
@@ -47,6 +54,7 @@ struct Line
     }
 };
         \end{lstlisting}
+        
     \subsubsection{距离：两点距离}
         \begin{lstlisting}[language=c++]
 double dist2(Point a, Point b)
@@ -54,6 +62,25 @@ double dist2(Point a, Point b)
     return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);
 }
         \end{lstlisting}
+        
+    \subsubsection{距离：点到直线距离}
+	result:点到直线最近点
+	\begin{lstlisting}[language=c++]
+Point NPT(Point P, Line L)  
+{ 
+    Point result; 
+    double a, b, t; 
+
+    a = L.p2.x - L.p1.x; 
+    b = L.p2.y - L.p1.y; 
+    t = ( (P.x - L.p1.x) * a + (P.y - L.p1.y) * b ) / (a * a + b * b); 
+
+    result.x = L.p1.x + a * t; 
+    result.y = L.p1.y + b * t; 
+    return dist2(P, result); 
+}
+	\end{lstlisting}
+	
     \subsubsection{距离：点到线段距离}
         res：点到线段最近点
         \begin{lstlisting}[language=c++]
@@ -79,6 +106,16 @@ double dist2(Point p1, Point p2, Point p)
     return dist2(p, res);
 }
         \end{lstlisting}
+        旧版
+        \begin{lstlisting}[language=c++]
+double CalcDis(Point a,Point s,Point e) //点到线段距离
+{
+    if (pmult(Point(s,e),Point(s,a)) < 0 || pmult(Point(e,s),Point(e,a)) < 0)
+        return min(CalcDis(a,s),CalcDis(a,e));
+    return abs(xmult(Point(a,s),Point(a,e)))/CalcDis(s,e);
+}
+        \end{lstlisting}
+        
     \subsubsection{面积：多边形}
         点按逆时针排序。
         \begin{lstlisting}[language=c++]
@@ -90,6 +127,7 @@ double CalcArea(Point p[], int n)
     return res;
 }
         \end{lstlisting}
+	
     \subsubsection{判断：线段相交}
         \begin{lstlisting}[language=c++]
 bool inter(Line l1,Line l2)
@@ -102,46 +140,3 @@ bool inter(Line l1,Line l2)
             ((l1.s-l2.s)*(l2.e-l2.s))*((l1.e-l2.s)*(l2.e-l2.s)) <= 0);
 }
         \end{lstlisting}
-    \subsubsection{求解：点到线最近点}
-	\begin{lstlisting}[language=c++]
-Point NPT(Point P, Line L)
-{
-    Point result;
-    double a, b, t;
-    a = L.e.x - L.s.x;
-    b = L.e.y - L.s.y;
-    t = ((P.x - L.s.x) * a + (P.y - L.s.y) * b ) / (a * a + b * b);
-    //`如果t小于0或者大于1,说明最近点在L.s和L.e这条线段之外`
-    result.x = L.s.x + a * t;
-    result.y = L.s.y + b * t;
-    return result;
-}
-	\end{lstlisting}
-    \subsubsection{矩阵：三维平移缩放旋转}
-	按向量$\overrightarrow{(x,y,z)}$平移：
-	\[\begin{pmatrix}
-	1 & 0 & 0 & x\\ 
-	0 & 1 & 0 & y\\ 
-	0 & 0 & 1 & z\\ 
-	0 & 0 & 0 & 1
-	\end{pmatrix}\]\\
-	\\
-	按比例$(x,y,z)$缩放：
-	\[\begin{pmatrix}
-	x & 0 & 0 & 0\\ 
-	0 & y & 0 & 0\\ 
-	0 & 0 & z & 0\\ 
-	0 & 0 & 0 & 1
-	\end{pmatrix}\]\\
-	\\
-	绕向量$\overrightarrow{(x,y,z)}$旋转$angle$角度：
-	\[\begin{pmatrix}
-	x^2\times (1-c)+c & x\times y\times (1-c)-z\times s & x\times z\times (1-c)+y\times s & 0\\ 
-	y\times x\times (1-c)+z\times s & y^2\times (1-c)+c & y\times z\times (1-c)-x\times s & 0\\ 
-	x\times z\times (1-c)-y\times s & y\times z\times (1-c)+x\times s & z^2\times (1-c)+c & 0\\ 
-	0 & 0 & 0 & 1
-	\end{pmatrix}
-	\begin{cases}
-	s=sin(angle)\\
-	c=cos(angle)
-	\end{cases}\]

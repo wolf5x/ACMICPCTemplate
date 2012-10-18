@@ -1,16 +1,32 @@
 \subsection{其它公式}
+    \subsubsection{Polya}
+	设$G$是$p$个对象的一个置换群，用$k$种颜色去染这$p$个对象，若一种染色方案在群$G$的作用下变为另一种方案，则这两个方案当作是同一种方案，这样的不同染色方案数为：\\
+	$L=\frac{1}{\left |G  \right |}\times \Sigma(k^{C(f)}), f\in G$\\
+	$C(f)$为循环节，$\left |G  \right |$表示群的置换方法数\\
+	\\
+	对于有$n$个位置的手镯，有$n$种旋转置换和$n$种翻转置换
+	\begin{description}
+	    \item[对于旋转置换：] ~\\
+		$C(f_i)=gcd(n,i)$ ,$i$表示一次转过i颗宝石，$i=0$时$c=n$；\\
+	    \item[对于翻转置换：] ~\\
+		\begin{description}
+		    \item[如果$n$为偶数：] 则有$\frac{n}{2}$个置换$C(f)=\frac{n}{2}$，有$\frac{n}{2}$个置换 $C(f)=\frac{n}{2}+1$\\
+		    \item[如果$n$为奇数：] $C(f)=\frac{n}{2}+1$\\
+		\end{description}
+	\end{description}
+
     \subsubsection{拉格朗日插值法}
-    已知$y=a_0+a_1x+a_2x^2+\cdots +a_{n-1}x^{n-1}$曲线上的$n$个点$(x_1,y_1),(x_2,y_2),(x_3,y_3)\cdots (x_n,y_n)$\\
-    用拉格朗日插值法可以不求系数可知任意$x$对应的$y$值。\\
-    \[ \begin{split}
-    y &= y_1\frac{(x-x_2)(x-x_3)\cdots (x-x_n)}{(x_1-x_2)(x_1-x_3)\cdots (x_1-x_n)}\\
-      &+ y_2\frac{(x-x_1)(x-x_3)\cdots (x-x_n)}{(x_2-x_1)(x_2-x_3)\cdots (x_2-x_n)}\\
-      &+ \cdots \\
-      &+ y_n\frac{(x-x_1)(x-x_2)\cdots (x-x_{n-1})}{(x_n-x_1)(x_n-x_2)\cdots (x_n-x_{n-1})}\\
-    \end{split}\]
-    特别的，如果$x_1\sim x_n$为 连续自然数，那么对于下一个自然数对应的$y$值为：\\
-    \[y_{n+1}=(-1)^{n-1}C_n^0y_1+(-1)^{n-2}C_n^1y_2+\cdots +(-1)^0C_n^{n-1}y_n\]
-    这个组合系数可以通过高斯消元暴出来，前提是要猜到它满足递推关系。\\
+	已知$y=a_0+a_1x+a_2x^2+\cdots +a_{n-1}x^{n-1}$曲线上的$n$个点$(x_1,y_1),(x_2,y_2),(x_3,y_3)\cdots (x_n,y_n)$\\
+	用拉格朗日插值法可以不求系数可知任意$x$对应的$y$值。\\
+	\[ \begin{split}
+	y &= y_1\frac{(x-x_2)(x-x_3)\cdots (x-x_n)}{(x_1-x_2)(x_1-x_3)\cdots (x_1-x_n)}\\
+	&+ y_2\frac{(x-x_1)(x-x_3)\cdots (x-x_n)}{(x_2-x_1)(x_2-x_3)\cdots (x_2-x_n)}\\
+	&+ \cdots \\
+	&+ y_n\frac{(x-x_1)(x-x_2)\cdots (x-x_{n-1})}{(x_n-x_1)(x_n-x_2)\cdots (x_n-x_{n-1})}\\
+	\end{split}\]
+	特别的，如果$x_1\sim x_n$为 连续自然数，那么对于下一个自然数对应的$y$值为：\\
+	\[y_{n+1}=(-1)^{n-1}C_n^0y_1+(-1)^{n-2}C_n^1y_2+\cdots +(-1)^0C_n^{n-1}y_n\]
+	这个组合系数可以通过高斯消元暴出来，前提是要猜到它满足递推关系。\\
     
     \subsubsection{正多面体顶点着色}
 	正四面体：$N = \frac{(n^{4}+11\times n^{2})}{12}$\\

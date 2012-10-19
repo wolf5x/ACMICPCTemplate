@@ -1,5 +1,5 @@
 \subsection{树链剖分}
-    \subsubsection{点权}
+	\subsubsection{点权}
 	\begin{lstlisting}[language=c++]
 #include <cstdio>
 #include <cstring>
@@ -11,282 +11,282 @@ const int LOG = 15;
 const int oo = 0x3f3f3f3f;
 struct Edge
 {
-        int to, w, id;
-        Edge* next;
+		int to, w, id;
+		Edge* next;
 } memo[MAX << 1], *cur, *g[MAX], *pree[MAX], *solid[MAX], *valid[MAX];
 int dp[MAX][LOG], pos[MAX], lst[MAX], dep[MAX], cnt[MAX], h[MAX], K, n;
 void init()
 {
-    for (int i = 1; i <= n; i++)
-    {
-        g[i] = NULL;
-        valid[i] = NULL;
-        solid[i] = NULL;
-        pree[i] = NULL;
-    }
-    for (int i = 0; i < LOG; i++)
-    {
-        dp[1][i] = 1;
-    }
-    cur = memo;
-    K = 0;
+	for (int i = 1; i <= n; i++)
+	{
+		g[i] = NULL;
+		valid[i] = NULL;
+		solid[i] = NULL;
+		pree[i] = NULL;
+	}
+	for (int i = 0; i < LOG; i++)
+	{
+		dp[1][i] = 1;
+	}
+	cur = memo;
+	K = 0;
 }
 void add(int u, int v, int w, int id)
 {
-    cur->to = v;
-    cur->w = w;
-    cur->id = id;
-    cur->next = g[u];
-    g[u] = cur++;
+	cur->to = v;
+	cur->w = w;
+	cur->id = id;
+	cur->next = g[u];
+	g[u] = cur++;
 }
 void dfsLCA(int d, int u, int f)
 {
-    dep[u] = d;
-    dp[u][0] = f;
-    cnt[u] = 1;
-    for (int i = 1; i < LOG; i++)
-    {
-        dp[u][i] = dp[dp[u][i - 1]][i - 1];
-    }
-    for (Edge* it = g[u]; it; it = it->next)
-    {
-        int v = it->to;
-        if (v != f)
-        {
-            pree[v] = it;
-            valid[it->id] = it;
-            dfsLCA(d + 1, v, u); //RE
-            cnt[u] += cnt[v];
-            if (solid[u] == NULL || cnt[solid[u]->to] < cnt[v])
-            {
-                solid[u] = it;
-            }
-        }
-    }
+	dep[u] = d;
+	dp[u][0] = f;
+	cnt[u] = 1;
+	for (int i = 1; i < LOG; i++)
+	{
+		dp[u][i] = dp[dp[u][i - 1]][i - 1];
+	}
+	for (Edge* it = g[u]; it; it = it->next)
+	{
+		int v = it->to;
+		if (v != f)
+		{
+			pree[v] = it;
+			valid[it->id] = it;
+			dfsLCA(d + 1, v, u); //RE
+			cnt[u] += cnt[v];
+			if (solid[u] == NULL || cnt[solid[u]->to] < cnt[v])
+			{
+				solid[u] = it;
+			}
+		}
+	}
 }
 void dfsChain(int u, int head)
 {
-    h[u] = head;
-    if (solid[u])
-    {
-        lst[pos[u] = K++] = u;
-        dfsChain(solid[u]->to, head);
-    }
-    else
-    for (Edge* it = g[u]; it; it = it->next)
-    {
-        int v = it->to;
-        if (it != solid[u] && v != dp[u][0])
-        {
-            dfsChain(v, v);
-        }
-    }
+	h[u] = head;
+	if (solid[u])
+	{
+		lst[pos[u] = K++] = u;
+		dfsChain(solid[u]->to, head);
+	}
+	else
+	for (Edge* it = g[u]; it; it = it->next)
+	{
+		int v = it->to;
+		if (it != solid[u] && v != dp[u][0])
+		{
+			dfsChain(v, v);
+		}
+	}
 }
 int getLCA(int u, int v)
 {
-    if (dep[u] < dep[v])
-        swap(u, v);
-    for (int st = 1 << (LOG - 1), i = LOG - 1; i >= 0; i--, st >>= 1)
-    {
-        if (st <= dep[u] - dep[v])
-        {
-            u = dp[u][i];
-        }
-    }
-    if (u == v)
-        return u;
-    for (int i = LOG - 1; i >= 0; i--)
-    {
-        if (dp[u][i] != dp[v][i])
-        {
-            u = dp[u][i];
-            v = dp[v][i];
-        }
-    }
-    return dp[u][0];
+	if (dep[u] < dep[v])
+		swap(u, v);
+	for (int st = 1 << (LOG - 1), i = LOG - 1; i >= 0; i--, st >>= 1)
+	{
+		if (st <= dep[u] - dep[v])
+		{
+			u = dp[u][i];
+		}
+	}
+	if (u == v)
+		return u;
+	for (int i = LOG - 1; i >= 0; i--)
+	{
+		if (dp[u][i] != dp[v][i])
+		{
+			u = dp[u][i];
+			v = dp[v][i];
+		}
+	}
+	return dp[u][0];
 }
 struct Node
 {
-        int l, r, ma, mi;
-        bool rev;
+		int l, r, ma, mi;
+		bool rev;
 } seg[MAX << 2];
 void reverse(int k)
 {
-    seg[k].mi *= -1;
-    seg[k].ma *= -1;
-    seg[k].rev ^= 1;
-    swap(seg[k].mi, seg[k].ma);
+	seg[k].mi *= -1;
+	seg[k].ma *= -1;
+	seg[k].rev ^= 1;
+	swap(seg[k].mi, seg[k].ma);
 }
 void pushdown(int k)
 {
-    if (seg[k].rev)
-    {
-        reverse(k << 1);
-        reverse(k << 1 | 1);
-        seg[k].rev = false;
-    }
+	if (seg[k].rev)
+	{
+		reverse(k << 1);
+		reverse(k << 1 | 1);
+		seg[k].rev = false;
+	}
 }
 void update(int k)
 {
-    seg[k].mi = min(seg[k << 1].mi, seg[k << 1 | 1].mi);
-    seg[k].ma = max(seg[k << 1].ma, seg[k << 1 | 1].ma);
+	seg[k].mi = min(seg[k << 1].mi, seg[k << 1 | 1].mi);
+	seg[k].ma = max(seg[k << 1].ma, seg[k << 1 | 1].ma);
 }
 void init(int k, int l, int r)
 {
-    seg[k].l = l;
-    seg[k].r = r;
-    seg[k].rev = false;
-    if (l == r)
-    {
-        seg[k].mi = seg[k].ma = solid[lst[l]]->w; //solid WA
-        return;
-    }
-    int mid = l + r >> 1;
-    init(k << 1, l, mid);
-    init(k << 1 | 1, mid + 1, r);
-    update(k);
+	seg[k].l = l;
+	seg[k].r = r;
+	seg[k].rev = false;
+	if (l == r)
+	{
+		seg[k].mi = seg[k].ma = solid[lst[l]]->w; //solid WA
+		return;
+	}
+	int mid = l + r >> 1;
+	init(k << 1, l, mid);
+	init(k << 1 | 1, mid + 1, r);
+	update(k);
 }
 void update(int k, int id, int v)
 {
-    if (seg[k].l == seg[k].r)
-    {
-        seg[k].mi = seg[k].ma = solid[lst[id]]->w = v;
-        return;
-    }
-    pushdown(k);
-    int mid = seg[k].l + seg[k].r >> 1;
-    if (id <= mid)
-        update(k << 1, id, v);
-    else
-        update(k << 1 | 1, id, v);
-    update(k);
+	if (seg[k].l == seg[k].r)
+	{
+		seg[k].mi = seg[k].ma = solid[lst[id]]->w = v;
+		return;
+	}
+	pushdown(k);
+	int mid = seg[k].l + seg[k].r >> 1;
+	if (id <= mid)
+		update(k << 1, id, v);
+	else
+		update(k << 1 | 1, id, v);
+	update(k);
 }
 void reverse(int k, int l, int r)
 {
-    if (seg[k].l > r || seg[k].r < l)
-        return;
-    if (seg[k].l >= l && seg[k].r <= r)
-    {
-        reverse(k);
-        return;
-    }
-    pushdown(k);
-    reverse(k << 1, l, r);
-    reverse(k << 1 | 1, l, r);
-    update(k);
+	if (seg[k].l > r || seg[k].r < l)
+		return;
+	if (seg[k].l >= l && seg[k].r <= r)
+	{
+		reverse(k);
+		return;
+	}
+	pushdown(k);
+	reverse(k << 1, l, r);
+	reverse(k << 1 | 1, l, r);
+	update(k);
 }
 int read(int k, int l, int r)
 {
-    if (seg[k].l > r || seg[k].r < l)
-        return -oo;
-    if (seg[k].l >= l && seg[k].r <= r)
-        return seg[k].ma;
-    pushdown(k);
-    return max(read(k << 1, l, r), read(k << 1 | 1, l, r));
+	if (seg[k].l > r || seg[k].r < l)
+		return -oo;
+	if (seg[k].l >= l && seg[k].r <= r)
+		return seg[k].ma;
+	pushdown(k);
+	return max(read(k << 1, l, r), read(k << 1 | 1, l, r));
 }
 void setEdge(int id, int v)
 {
-    Edge* it = valid[id];
-    if (h[it->to] != it->to)
-    {
-        update(1, pos[dp[it->to][0]], v);
-    }
-    else
-    {
-        it->w = v;
-    }
+	Edge* it = valid[id];
+	if (h[it->to] != it->to)
+	{
+		update(1, pos[dp[it->to][0]], v);
+	}
+	else
+	{
+		it->w = v;
+	}
 }
 void negateLCA(int t, int u)
 {
-    while (t != u)
-    {
-        int tmp = h[u];
-        if (dep[tmp] < dep[t])
-            tmp = t;
-        if (h[u] == u)
-        {
-            pree[u]->w *= -1;
-            u = dp[u][0];
-        }
-        else
-        {
-            reverse(1, pos[tmp], pos[dp[u][0]]);
-            u = tmp;
-        }
-    }
+	while (t != u)
+	{
+		int tmp = h[u];
+		if (dep[tmp] < dep[t])
+			tmp = t;
+		if (h[u] == u)
+		{
+			pree[u]->w *= -1;
+			u = dp[u][0];
+		}
+		else
+		{
+			reverse(1, pos[tmp], pos[dp[u][0]]);
+			u = tmp;
+		}
+	}
 }
 void negate(int u, int v)
 {
-    int t = getLCA(u, v);
-    negateLCA(t, u);
-    negateLCA(t, v);
+	int t = getLCA(u, v);
+	negateLCA(t, u);
+	negateLCA(t, v);
 }
 int maxLCA(int t, int u)
 {
-    int ret = -oo;
-    while (t != u)
-    {
-        int tmp = h[u];
-        if (dep[tmp] < dep[t])
-            tmp = t;
-        if (h[u] == u)
-        {
-            ret = max(ret, pree[u]->w);
-            u = dp[u][0];
-        }
-        else
-        {
-            ret = max(ret, read(1, pos[tmp], pos[dp[u][0]]));
-            u = tmp;
-        }
-    }
-    return ret;
+	int ret = -oo;
+	while (t != u)
+	{
+		int tmp = h[u];
+		if (dep[tmp] < dep[t])
+			tmp = t;
+		if (h[u] == u)
+		{
+			ret = max(ret, pree[u]->w);
+			u = dp[u][0];
+		}
+		else
+		{
+			ret = max(ret, read(1, pos[tmp], pos[dp[u][0]]));
+			u = tmp;
+		}
+	}
+	return ret;
 }
 int query(int u, int v)
 {
-    int t = getLCA(u, v);
-    return max(maxLCA(t, u), maxLCA(t, v));
+	int t = getLCA(u, v);
+	return max(maxLCA(t, u), maxLCA(t, v));
 }
 int main()
 {
-    int T;
-    int u, v, w;
-    char op[15];
-    scanf("%d", &T);
-    while (T--)
-    {
-        scanf("%d", &n);
-        init();
-        for (int i = 1; i < n; i++)
-        {
-            scanf("%d%d%d", &u, &v, &w);
-            add(u, v, w, i);
-            add(v, u, w, i);
-        }
-        dfsLCA(0, 1, 1);
-        dfsChain(1, 1);
-        init(1, 0, K - 1);
-        while (scanf("%s", op), op[0] != 'D')
-        {
-            scanf("%d%d", &u, &v);
-            if (op[0] == 'C')
-            {
-                setEdge(u, v);
-            }
-            else if (op[0] == 'N')
-            {
-                negate(u, v);
-            }
-            else
-            {
-                printf("%d\n", query(u, v));
-            }
-        }
-    }
-    return 0;
+	int T;
+	int u, v, w;
+	char op[15];
+	scanf("%d", &T);
+	while (T--)
+	{
+		scanf("%d", &n);
+		init();
+		for (int i = 1; i < n; i++)
+		{
+			scanf("%d%d%d", &u, &v, &w);
+			add(u, v, w, i);
+			add(v, u, w, i);
+		}
+		dfsLCA(0, 1, 1);
+		dfsChain(1, 1);
+		init(1, 0, K - 1);
+		while (scanf("%s", op), op[0] != 'D')
+		{
+			scanf("%d%d", &u, &v);
+			if (op[0] == 'C')
+			{
+				setEdge(u, v);
+			}
+			else if (op[0] == 'N')
+			{
+				negate(u, v);
+			}
+			else
+			{
+				printf("%d\n", query(u, v));
+			}
+		}
+	}
+	return 0;
 }
 	\end{lstlisting}
-    \subsubsection{边权}
+	\subsubsection{边权}
 	\begin{lstlisting}[language=c++]
 #include <cstdio>
 #include <iostream>

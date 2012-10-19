@@ -1,5 +1,5 @@
 \subsection{线性规划}
-    \begin{lstlisting}[language=c++]
+	\begin{lstlisting}[language=c++]
 #define MAXM 20  //max num of basic varibles
 #define INF 1E200
 
@@ -140,43 +140,43 @@ int Simplex()
 
 int main()
 {
-    //n = 1;m=1;
-    //V= 0.0;
-    //c[1] = 1.0;
-    //A[1][1] = 1.0;
-    //b[1] = 5.0;
-    //Simplex();
-    //printf("V = %.3f\n",V);
+	//n = 1;m=1;
+	//V= 0.0;
+	//c[1] = 1.0;
+	//A[1][1] = 1.0;
+	//b[1] = 5.0;
+	//Simplex();
+	//printf("V = %.3f\n",V);
 
 	while(scanf("%d",&v1[1]) == 1)
-        {
-            for(int i = 2; i<=6;i++)
-                scanf("%d",&v1[i]);
-            n = 4; m = 6;
-            for(int i = 0 ; i<=m+1;i++)
-                for(int j=0;j<=n+m+2;j++)
-                    A[i][j] = c[j] = 0;
-            memset(b,0,sizeof(b));
-            V = 0.0;
-            /*
-            `n 为未知数个数`
-            `m 为约束个数`
-            `目标：siama(c[i]*xi)`
-            `约束：sigma(A[i][j]*xj) <=b[i]; j = 1 ... n`
-            `解存在X里面`
-            */
-            b[1] = v1[1] ; A[1][1] = 1;A[1][4] = 1;
-            b[2] = v1[2] ; A[2][1] = 1;A[2][3] = 1;
-            b[3] = v1[3] ; A[3][3] = 1;A[3][4] = 1;
-            b[4] = v1[4] ; A[4][2] = 1;A[4][3] = 1;
-            b[5] = v1[5] ; A[5][2] = 1;A[5][4] = 1;
-            b[6] = v1[6] ; A[6][1] = 1;A[6][2] = 1;
-            c[1] = 1;c[2] = 1;c[3] = 1;c[4] = 1;
-            Simplex();
-            //printf("V = %.3f\n",V);
-            printf("%.3f %.3f %.3f %.3f\n",X[1],X[2],X[3],X[4]);
+		{
+			for(int i = 2; i<=6;i++)
+				scanf("%d",&v1[i]);
+			n = 4; m = 6;
+			for(int i = 0 ; i<=m+1;i++)
+				for(int j=0;j<=n+m+2;j++)
+					A[i][j] = c[j] = 0;
+			memset(b,0,sizeof(b));
+			V = 0.0;
+			/*
+			`n 为未知数个数`
+			`m 为约束个数`
+			`目标：siama(c[i]*xi)`
+			`约束：sigma(A[i][j]*xj) <=b[i]; j = 1 ... n`
+			`解存在X里面`
+			*/
+			b[1] = v1[1] ; A[1][1] = 1;A[1][4] = 1;
+			b[2] = v1[2] ; A[2][1] = 1;A[2][3] = 1;
+			b[3] = v1[3] ; A[3][3] = 1;A[3][4] = 1;
+			b[4] = v1[4] ; A[4][2] = 1;A[4][3] = 1;
+			b[5] = v1[5] ; A[5][2] = 1;A[5][4] = 1;
+			b[6] = v1[6] ; A[6][1] = 1;A[6][2] = 1;
+			c[1] = 1;c[2] = 1;c[3] = 1;c[4] = 1;
+			Simplex();
+			//printf("V = %.3f\n",V);
+			printf("%.3f %.3f %.3f %.3f\n",X[1],X[2],X[3],X[4]);
 
-        }
+		}
 	return 0;
 }
-    \end{lstlisting}
+	\end{lstlisting}

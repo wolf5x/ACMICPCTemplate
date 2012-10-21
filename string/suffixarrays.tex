@@ -103,3 +103,92 @@ void da(int str[],int sa[],int rank[],int height[],int n,int m)
 			for(k?k--:0,j=sa[rank[i]-1]; i+k < n && j+k < n && str[i+k]==str[j+k]; k++);
 }
 		\end{lstlisting}
+		
+	\subsubsection{调用}
+		注意几个数组的下标是不同的
+		\begin{lstlisting}[language=c++]
+char s[maxn];
+int str[maxn],sa[maxn],rank[maxn],height[maxn];
+
+int main()
+{
+	scanf("%s",s);
+	int len = strlen(s);
+	for (int i = 0;i <= len;i++)
+		str[i] = s[i];
+	da(str,sa,rank,height,len,128);
+	
+	for (int i = 0;i < len;i++)
+	{
+		printf("sa = %d, height = %d, s = %s\n",sa[i],height[i],s+sa[i]);
+	}
+	return 0;
+}
+		\end{lstlisting}
+		
+	\subsubsection{最长公共前缀}
+		记得不要忘记调用lcpinit！
+		\begin{lstlisting}[language=c++]
+int f[maxn][20];
+int lent[maxn];
+void lcpinit()
+{
+	int i,j;
+	int n = len,k = 1,l = 0;
+	for (i = 0; i < n; i++)
+	{
+		f[i][0] = height[i];
+		if (i+1 > k*2)
+		{
+			k *= 2;
+			l++;
+		}
+		lent[i+1] = l;
+	}
+	for (j = 1; (1<<j)-1<n; j++)
+		for (i = 0; i+(1<<j)-1<n; i++)
+			f[i][j] = min(f[i][j-1],f[i+(1<<(j-1))][j-1]);
+}
+int lcp(int x,int y)
+{
+	if (x > y)	swap(x,y);
+	if (x == y)
+		return x-sa[x];//自己和自己lcp当然是自己的长度啦
+	x++;
+	int k = lent[y-x+1];
+	return min(f[x][k],f[y-(1<<k)+1][k]);
+}
+		\end{lstlisting}
+		
+	\subsubsection{最长公共前缀大于等于某个值的区间}
+		\begin{lstlisting}[language=c++]
+void getinterv(int pos,int comlen,int& pl,int& pr)
+{
+	int l,r,mid,cp;
+	l = 0;
+	r = pos;
+	while (l < r)
+	{
+		mid = l+r>>1;
+		cp = lcp(mid,pos);
+		if (cp < comlen)
+			l = mid+1;
+		else
+			r = mid;
+	}
+	pl = l;
+
+	l = pos;
+	r = len-1;
+	while (l < r)
+	{
+		mid = l+r+1>>1;
+		cp = lcp(pos,mid);
+		if (cp < comlen)
+			r = mid-1;
+		else
+			l = mid;
+	}
+	pr = l;
+}
+		\end{lstlisting}

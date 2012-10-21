@@ -64,21 +64,21 @@ void InscribedCircle()
 	
 	\subsubsection{点对圆的两个切点}
 	\begin{lstlisting}[language=c++]
-void calc_qie(Point poi,Point o,double r,Point &result1,Point &result2) {
-	double line=sqrt((poi.x-o.x)*(poi.x-o.x)+(poi.y-o.y)*(poi.y-o.y));
-	double angle=acos(r/line);
+void calc_qie(Point poi,Point o,double r,Point &result1,Point &result2)
+{
+	double line = sqrt((poi.x-o.x)*(poi.x-o.x)+(poi.y-o.y)*(poi.y-o.y));
+	double angle = acos(r/line);
 	Point unitvector,lin;
-	lin.x=poi.x-o.x;
-	lin.y=poi.y-o.y;
-	unitvector.x=lin.x/sqrt(lin.x*lin.x+lin.y*lin.y)*r;
-	unitvector.y=lin.y/sqrt(lin.x*lin.x+lin.y*lin.y)*r;
-	result1=Rotate(unitvector,-angle);
-	result2=Rotate(unitvector,angle);
-	result1.x+=o.x;
-	result1.y+=o.y;
-	result2.x+=o.x;
-	result2.y+=o.y;
-	return;
+	lin.x = poi.x-o.x;
+	lin.y = poi.y-o.y;
+	unitvector.x = lin.x/sqrt(lin.x*lin.x+lin.y*lin.y)*r;
+	unitvector.y = lin.y/sqrt(lin.x*lin.x+lin.y*lin.y)*r;
+	result1 = unitvector.Rotate(-angle);
+	result2 = unitvector.Rotate(angle);
+	result1.x += o.x;
+	result1.y += o.y;
+	result2.x += o.x;
+	result2.y += o.y;
 }
 	\end{lstlisting}
 	

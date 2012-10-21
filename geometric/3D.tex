@@ -1,0 +1,83 @@
+\subsection{三维几何}
+	运算符和二维一样
+	\subsubsection{叉积}
+	    \begin{lstlisting}[language=c++]
+Point3D operator*(Point3D s, Point3D e)
+{ 
+	return Point3D(s.y*e.z-s.z*e.y, 
+		s.z*e.x-s.x*e.z, 
+		s.x*e.y-s.y*e.x ); 
+}
+	    \end{lstlisting}
+	
+	\subsubsection{判断：直线相交}
+		\begin{lstlisting}[language=c++]
+bool LineIntersect(Line3D L1, Line3D L2) 
+{ 
+	Point3D s = L1.s-L1.e; 
+	Point3D e = L2.s-L2.e; 
+	Point3D p  = s*e; 
+	if (ZERO(p)) return false;	  //是否平行 
+	p = (L2.s-L1.e)*(L1.s-L1.e); 
+	return ZERO(p&L2.e);		 //是否共面 
+} 
+		\end{lstlisting}
+		
+	\subsubsection{判断：线段相交}
+	需要先判断是否在一个平面上：
+	\begin{lstlisting}[language=c++]
+bool inter(Point a,Point b,Point c,Point d)
+{
+	Point ret = (a-b)*(c-d);
+	Point t1 = (b-a)*(c-a);
+	Point t2 = (b-a)*(d-a);
+	Point t3 = (d-c)*(a-c);
+	Point t4 = (d-c)*(b-c);
+	return sgn(t1&ret)*sgn(t2&ret) < 0 &&
+				 sgn(t3&ret)*sgn(t4&ret) < 0;
+}
+	\end{lstlisting}
+	
+	\subsubsection{判断：三维向量是否为0}
+		\begin{lstlisting}[language=c++]
+inline bool ZERO(Point3D p)
+{ 
+	return (ZERO(p.x) && ZERO(p.y) && ZERO(p.z)); 
+} 
+		\end{lstlisting}
+				
+	\subsubsection{判断：点在直线上}
+		\begin{lstlisting}[language=c++]
+bool OnLine(Point3D p, Line3D L)
+{ 
+	return ZERO((p-L.s)*(L.e-L.s)); 
+} 
+		\end{lstlisting}
+		
+	\subsubsection{判断：点在线段上}
+		\begin{lstlisting}[language=c++]
+bool OnSeg(Point3D p, Line3D L)
+{ 
+	return (ZERO((L.s-p)*(L.e-p)) && 
+		EQ(Norm(p-L.s)+Norm(p-L.e),Norm(L.e-L.s))); 
+} 
+		\end{lstlisting}
+		
+	\subsubsection{距离：点到直线}
+		\begin{lstlisting}[language=c++]
+double Distance(Point3D p, Line3D L)
+{ 
+	return (Norm((p-L.s)*(L.e-L.s))/Norm(L.e-L.s)); 
+} 
+		\end{lstlisting}
+
+	\subsubsection{夹角}
+		返回值是$[0,\pi]$之间的弧度
+		\begin{lstlisting}[language=c++]
+double Inclination(Line3D L1, Line3D L2) 
+{ 
+	Point3D u = L1.e - L1.s; 
+	Point3D v = L2.e - L2.s; 
+	return acos( (u & v) / (Norm(u)*Norm(v)) ); 
+} 
+		\end{lstlisting}

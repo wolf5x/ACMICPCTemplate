@@ -48,7 +48,9 @@ int find(int depth,int dl,int dr,int fl,int fr,int k)
 	int mid = (dl+dr)/2;
 	ls = (fl == dl)? 0 : s[depth][fl-1];
 	rs = s[depth][fr];
-	return (rs-ls < k)? find(depth+1,mid+1,dr,mid+fl-dl-ls+1,mid+fr-dl-rs+1,k-(rs-ls)) : find(depth+1,dl,mid,dl+ls,dl+rs-1,k);
+	return (rs-ls < k)?
+		find(depth+1,mid+1,dr,mid+fl-dl-ls+1,mid+fr-dl-rs+1,k-(rs-ls))
+		: find(depth+1,dl,mid,dl+ls,dl+rs-1,k);
 }
 
 int main()

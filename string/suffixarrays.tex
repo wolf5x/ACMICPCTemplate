@@ -9,11 +9,13 @@ const int maxn = 300010;
 int wa[maxn * 3], wb[maxn * 3], wv[maxn * 3], ws[maxn * 3];
 int c0(int *r, int a, int b)
 {
-	return r[a] == r[b] && r[a + 1] == r[b + 1] && r[a + 2] == r[b + 2];
+	return 
+	r[a] == r[b] && r[a + 1] == r[b + 1] && r[a + 2] == r[b + 2];
 }
 int c12(int k, int *r, int a, int b)
 {
-	if (k == 2) return r[a] < r[b] || r[a] == r[b] && c12(1, r, a + 1, b + 1);
+	if (k == 2) 
+		return r[a] < r[b] || r[a] == r[b] && c12(1, r, a + 1, b + 1);
 	else return r[a] < r[b] || r[a] == r[b] && wv[a + 1] < wv[b + 1];
 }
 void sort(int *r, int *a, int *b, int n, int m)
@@ -28,7 +30,8 @@ void sort(int *r, int *a, int *b, int n, int m)
 }
 void dc3(int *r, int *sa, int n, int m)
 {
-	int i, j, *rn = r + n, *san = sa + n, ta = 0, tb = (n + 1) / 3, tbc = 0, p;
+	int i, j, *rn = r + n;
+	int *san = sa + n, ta = 0, tb = (n + 1) / 3, tbc = 0, p;
 	r[n] = r[n + 1] = 0;
 	for (i = 0; i < n; i++) if (i % 3 != 0) wa[tbc++] = i;
 	sort(r + 2, wa, wb, tbc, m);
@@ -48,7 +51,7 @@ void dc3(int *r, int *sa, int n, int m)
 	for (; j < tbc; p++) sa[p] = wb[j++];
 }
 //`str和sa也要三倍`
-void da(int str[], int sa[], int rank[], int height[], int n, int m)
+void da(int str[],int sa[],int rank[],int height[],int n,int m)
 {
 	for (int i = n; i < n * 3; i++)
 		str[i] = 0;
@@ -61,8 +64,9 @@ void da(int str[], int sa[], int rank[], int height[], int n, int m)
 	}
 	for (i = 0, j = 0, k = 0; i < n; height[rank[i ++]] = k)
 		if (rank[i] > 0)
-			for (k ? k-- : 0 , j = sa[rank[i] - 1]; i + k < n && j + k < n &&
-					str[i + k] == str[j + k]; k ++) ;
+			for (k ? k-- : 0 , j = sa[rank[i] - 1]; 
+				i + k < n && j + k < n && str[i + k] == str[j + k];
+				k++);
 }
 		\end{lstlisting}
 		
@@ -100,7 +104,9 @@ void da(int str[],int sa[],int rank[],int height[],int n,int m)
 	for(int i=0; i<n; i++) rank[sa[i]]=i;
 	for(int i=0,j=0,k=0; i<n; height[rank[i++]]=k)
 		if(rank[i]>0)
-			for(k?k--:0,j=sa[rank[i]-1]; i+k < n && j+k < n && str[i+k]==str[j+k]; k++);
+			for(k?k--:0,j=sa[rank[i]-1];
+				i+k < n && j+k < n && str[i+k]==str[j+k];
+				k++);
 }
 		\end{lstlisting}
 		
@@ -120,7 +126,7 @@ int main()
 	
 	for (int i = 0;i < len;i++)
 	{
-		printf("sa = %d, height = %d, s = %s\n",sa[i],height[i],s+sa[i]);
+		printf("sa= %d,height= %d,s= %s\n",sa[i],height[i],s+sa[i]);
 	}
 	return 0;
 }

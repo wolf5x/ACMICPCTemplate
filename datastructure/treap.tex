@@ -99,7 +99,8 @@ struct Treap
 		}
 		else
 		{
-			pair<Treap_Node *, Treap_Node *> ret = split(p->son[1], n - p->sonSize(0) - 1);
+			pair<Treap_Node *, Treap_Node *> 
+				ret = split(p->son[1], n - p->sonSize(0) - 1);
 			p->son[1] = ret.first;
 			up(p);
 			return make_pair(p, ret.second);
@@ -118,7 +119,8 @@ struct Treap
 	{
 		Treap_Node *p = &node[N++];
 		*p = Treap_Node(value);
-		pair<Treap_Node *, Treap_Node *> ret = split(root, smalls(root, value));
+		pair<Treap_Node *, Treap_Node *> 
+			ret = split(root, smalls(root, value));
 		root = merge(merge(ret.first, p), ret.second);
 	}
 	void remove(int value)

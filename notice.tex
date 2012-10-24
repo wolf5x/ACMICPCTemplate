@@ -1,4 +1,26 @@
 \section{注意事项}
+	\hrule\ 
+	\\
+	输入输出格式？调试信息？初始化？算术溢出？数组大小？
+	\\
+	左右端点范围？acos/asin/sqrt 函数定义域？精度问题？
+	\\
+	二分答案？暴力？单调性？凸性？块状结构？函数式？对偶问题？
+	\\
+	\hrule\
+	\\
+	使用map进行映射的时候，不要用下面这种不安全写法
+	\begin{lstlisting}[language=c++]
+if (mp.find(s) == mp.end())
+	mp[s] = mp.size()-1;//挂成狗
+
+if (mp.find(s) == mp.end())
+{
+	int tmp = mp.size();
+	mp[s] = tmp;//正确
+}
+	\end{lstlisting}
+	~\\
 	$10^{6}$数量级慎用后缀数组\\
 	\\
 	TLE的时候要冷静哟。。\\

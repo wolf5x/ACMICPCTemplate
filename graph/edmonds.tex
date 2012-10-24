@@ -90,7 +90,8 @@ void FindAugmentingPath()
 		for (int v = 1; v <= N; v++)
 			if (Graph[u][v] && (Base[u] != Base[v]) && (Match[u] != v))
 			{
-				if ((v == Start) || ((Match[v] > 0) && (Father[Match[v]] > 0)))
+				if ((v == Start) || 
+					((Match[v] > 0) && (Father[Match[v]] > 0)))
 					BlossomContract(u,v);
 				else if (Father[v] == 0)
 				{

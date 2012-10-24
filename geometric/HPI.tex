@@ -22,8 +22,8 @@ void HPI(Line line[], int n, Point res[], int &resn)
 	resn = 0;
 	for (int i = 2; i < tot; i++)
 	{
-		if (fabs((Q[tail].e-Q[tail].s) * (Q[tail - 1].e-Q[tail - 1].s)) < eps ||
-				fabs((Q[head].e-Q[head].s) * (Q[head + 1].e-Q[head + 1].s)) < eps)
+		if (fabs((Q[tail].e-Q[tail].s)*(Q[tail - 1].e-Q[tail - 1].s)) < eps ||
+				fabs((Q[head].e-Q[head].s)*(Q[head + 1].e-Q[head + 1].s)) < eps)
 			return;
 		while (head < tail && (((Q[tail]&Q[tail - 1]) - line[i].s) * (line[i].e-line[i].s)) > eps)
 			tail--;

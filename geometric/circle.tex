@@ -108,3 +108,25 @@ void Gao()
 			}
 }
 	\end{lstlisting}
+	
+	\subsubsection{两圆交点}
+	\begin{lstlisting}[language=c++]
+lab = Point(p[j].x-p[i].x,p[j].y-p[i].y);
+AB = lab.Length();
+AC = cr[i];
+BC = cr[j];
+
+if (cmp(AB+AC,BC) <= 0)	continue;//包含
+if (cmp(AB+BC,AC) <= 0)	continue;
+if (cmp(AB,AC+BC) > 0)	continue;//相离
+
+theta = atan2(lab.y,lab.x);
+fai = acos((AC*AC+AB*AB-BC*BC)/(2.0*AC*AB));
+a0 = theta-fai;
+if (cmp(a0,-pi) < 0)	a0 += 2*pi;
+a1 = theta+fai;
+if (cmp(a1,pi) > 0)	a1 -= 2*pi;
+//答案
+xp[totp++] = Point(p[i].x+cr[i]*cos(a0),p[i].y+cr[i]*sin(a0));
+xp[totp++] = Point(p[i].x+cr[i]*cos(a1),p[i].y+cr[i]*sin(a1));
+	\end{lstlisting}

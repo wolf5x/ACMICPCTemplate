@@ -141,7 +141,10 @@ void ST_build(char *s)
 	init(SAM_size);
 	for (int i=1;i<SAM_size;i++)
 	{
-		ST_add(SAM_node[i].fa->id,SAM_node[i].id,s[SAM_node[i].pos-SAM_node[i].fa->len-1]-'a',SAM_node[i].len-SAM_node[i].fa->len);
+		ST_add(SAM_node[i].fa->id,
+			SAM_node[i].id,
+			s[SAM_node[i].pos-SAM_node[i].fa->len-1]-'a',
+			SAM_node[i].len-SAM_node[i].fa->len);
 		if (SAM_node[i].pos==SAM_node[i].len)
 		{
 			Sufpos[n-SAM_node[i].pos+1]=i;
@@ -282,7 +285,7 @@ void dfs(int u)
 		int v=edge[i].to;
 		dfs(v);
 		for (int j=0; j<n-1; j++)
-			SAM_node[u].mat[j]=max(SAM_node[v].mat[j],SAM_node[u].mat[j]);
+		SAM_node[u].mat[j]=max(SAM_node[v].mat[j],SAM_node[u].mat[j]);
 	}
 	int tmp=SAM_node[u].len;
 	for (int i=0; i<n-1; i++)
@@ -435,11 +438,9 @@ void dfs(int u)
 	for (int i=head[u]; i!=-1; i=edge[i].next)
 	{
 		int v=edge[i].to;
-		/*for (int j=0; j<n; j++)
-			SAM_node[v].mat[j]=max(SAM_node[v].mat[j],SAM_node[u].mat[j]);*/
 		dfs(v);
 		for (int j=0; j<n; j++)
-			SAM_node[u].mat[j]=max(SAM_node[v].mat[j],SAM_node[u].mat[j]);
+		SAM_node[u].mat[j]=max(SAM_node[v].mat[j],SAM_node[u].mat[j]);
 	}
 	int tmp=SAM_node[u].len;
 	for (int i=0; i<n; i++)

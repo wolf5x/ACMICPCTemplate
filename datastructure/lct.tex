@@ -13,7 +13,7 @@ struct Edge
 {
 		int to, w, id;
 		Edge* next;
-} memo[MAX << 1], *cur, *g[MAX], *pree[MAX], *solid[MAX], *valid[MAX];
+} memo[MAX<<1],*cur,*g[MAX],*pree[MAX],*solid[MAX],*valid[MAX];
 int dp[MAX][LOG], pos[MAX], lst[MAX], dep[MAX], cnt[MAX], h[MAX], K, n;
 void init()
 {

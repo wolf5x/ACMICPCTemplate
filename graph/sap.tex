@@ -67,7 +67,8 @@ int maxflow(int s,int t)
 		for (int i=node[u].cur; i!=-1; i=edge[i].next)
 		{
 			v=edge[i].to;
-			if (edge[i].cap-edge[i].flow && node[v].label+1==node[u].label)
+			if (edge[i].cap-edge[i].flow &&
+				node[v].label+1==node[u].label)
 			{
 				flag=true;
 				node[u].cur=node[v].pre=i;

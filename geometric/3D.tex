@@ -1,15 +1,76 @@
 \subsection{三维几何}
-	运算符和二维一样
-	\subsubsection{叉积}
-	    \begin{lstlisting}[language=c++]
-Point3D operator*(Point3D s, Point3D e)
-{ 
-	return Point3D(s.y*e.z-s.z*e.y, 
-		s.z*e.x-s.x*e.z, 
-		s.x*e.y-s.y*e.x ); 
+	\subsubsection{Point定义}
+		\begin{lstlisting}[language=c++]
+struct Point3D
+{
+	double x,y,z;
+	Point3D() {}
+	Point3D(double _x,double _y,double _z)
+	{
+		x = _x;
+		y = _y;
+		z = _z;
+	}
+	Point3D operator -(const Point3D& b)const
+	{
+		return Point3D(x-b.x,y-b.y,z-b.z);
+	}
+	Point3D operator *(const Point3D& b)const
+	{
+		return Point3D(y*b.z-z*b.y,z*b.x-x*b.z,x*b.y-y*b.x);
+	}
+	double operator &(const Point3D& b)const
+	{
+		return x*b.x+y*b.y+z*b.z;
+	}
+};
+//模
+double Norm(Point3D p)
+{
+	return sqrt(p&p);
 }
-	    \end{lstlisting}
+//`绕单位向量$V$旋转$\theta$角度`
+Point3D Trans(Point3D pa,Point3D V,double theta)
+{
+	double s = sin(theta);
+	double c = cos(theta);
+	double x,y,z;
+	x = V.x;
+	y = V.y;
+	z = V.z;
+	Point3D pp = 
+	Point3D(
+		(x*x*(1-c)+c)*pa.x+(x*y*(1-c)-z*s)*pa.y+(x*z*(1-c)+y*s)*pa.z,
+		(y*x*(1-c)+z*s)*pa.x+(y*y*(1-c)+c)*pa.y+(y*z*(1-c)-x*s)*pa.z,
+		(x*z*(1-c)-y*s)*pa.x+(y*z*(1-c)+x*s)*pa.y+(z*z*(1-c)+c)*pa.z);
+	return pp;
+}
+		\end{lstlisting}
 	
+	\subsubsection{经度纬度转换}
+		直角坐标系与极坐标系转换：\\
+		\[\begin{cases}
+		x = r\times sin\theta \times cos\varphi \\
+		y = r\times sin\theta \times sin\varphi \\
+		z = r\times cos\theta\\
+		\end{cases}
+		\begin{cases}
+		r = \sqrt{x\times 2 + y\times 2 + z\times 2}\\
+		\varphi = arctan(\frac{y}{x})\\
+		\theta = arccos(\frac{z}{r})\\
+		\end{cases}r\in [0,+\infty),\varphi \in [0,2\pi],\theta \in [0,\pi] \]
+		经度维度转换（$lat1\in (-\frac{\pi}{2},\frac{\pi}{2}), lng1\in (-\pi,\pi)$）
+		\begin{lstlisting}[language=c++]
+Point3D getPoint3D(double lat,double lng,double r)
+{
+	lat += pi/2;
+	lng += pi;
+	return 
+		Point3D(r*sin(lat)*cos(lng),r*sin(lat)*sin(lng),r*cos(lat));
+}
+		\end{lstlisting}
+		
+　　
 	\subsubsection{判断：直线相交}
 		\begin{lstlisting}[language=c++]
 bool LineIntersect(Line3D L1, Line3D L2) 

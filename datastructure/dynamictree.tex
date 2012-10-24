@@ -50,8 +50,10 @@ struct SplayTree
 		x->size = x->c[0]->size + x->c[1]->size + 1;
 
 //		x->sum = x->c[0]->sum + x->c[1]->sum + x->key;
-//		x->lsum = max(x->c[0]->lsum, x->c[0]->sum + x->key + max(0, x->c[1]->lsum));
-//		x->rsum = max(x->c[1]->rsum, x->c[1]->sum + x->key + max(0, x->c[0]->rsum));
+//		x->lsum = max(x->c[0]->lsum, 
+//			x->c[0]->sum + x->key + max(0, x->c[1]->lsum));
+//		x->rsum = max(x->c[1]->rsum, 
+//			x->c[1]->sum + x->key + max(0, x->c[0]->rsum));
 //		x->maxsum = max(max(x->c[0]->maxsum, x->c[1]->maxsum),
 //			x->key + max(0, x->c[0]->rsum) + max(0, x->c[1]->lsum));
 

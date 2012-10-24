@@ -40,7 +40,8 @@ int calc(int a,char op,int b)
 int calc_exp(int p)
 {
 	int a = P();
-	while ((OP.find(next_char()) != OP.npos) && (get_priority(next_char()) >= p))
+	while ((OP.find(next_char()) != OP.npos) && 
+		(get_priority(next_char()) >= p))
 	{
 		char op = next_char();
 		cur++;
@@ -73,7 +74,6 @@ int P()
 	else
 	{
 		cur++;
-		//cout << "getvar at " << cur << ' ' << var[varid[s[cur]-'a']] << endl;
 		return var[varid[s[cur-1]-'a']];
 	}
 }

@@ -73,3 +73,47 @@ dp[0] = n!;
 dp[1] = n*n!;
 	\end{lstlisting}
 	$dp[m]$为所求解\\
+	
+	\subsubsection{马步问题}
+	任意步长$(p,q)$无限棋盘可达性判定
+	\begin{lstlisting}[language=c++]
+bool check(int dx,int dy,int p,int q)
+{
+	if (p < 0) p = -p;
+	if (q < 0) q = -q;
+	LL g = gcd(p,q);
+	if (dx % g || dy % g) return false;
+	dx /= g,dy /= g,p = (p / g) & 1,q = (q / g) & 1;
+	return !(p == q && ((dx ^ dy) & 1));
+}
+	\end{lstlisting}
+	拓展:\\
+	若可选马步可以有$N$种$(p_i,q_i)$,令$g = gcd(p_1,q_1,p_2,q_2\cdots p_N,q_N)$,则不在$g$的整数倍点上的节点肯定不可达。坐标除$2g$,同时将可选马步除$g$之后放缩到$2\times 2$之内,即$(\frac{p_i}{g}\mod 2,\frac{q_i}{g}\mod 2)$。若放缩后马步中有$(1,0)$或$(0,1)$,则全放缩后全棋盘可达,否则只可达偶点。\\
+	\\
+	(2,1)马步无限棋盘最小距离
+	\begin{lstlisting}[language=c++]
+int dis(int dx,int dy)
+{
+	if (dx < 0) dx = -dx;
+	if (dy < 0) dy = -dy;
+	if (dx < dy) swap(dx,dy);
+	if (dx & 1)
+	{
+		if (dy & 1) return dis(dx+1,dy-1);
+		if (dx == 1 && dy == 0) return 3;
+		return dis(dx+3,dy)-1;
+	}
+	if (dy & 1)
+	{
+		if (dx == 4 && dy == 3) return 3;
+		return dis(dx-2,dy-1)+1;
+	}
+	if (dx == 0 && dy == 0) return 0;
+	if (dx == 2 && dy == 2) return 4;
+	int c = (((dx-1) / 4)+1)*2;
+	if (dx & 2) dy -= 2;
+	if (dy <= c) return c;
+	dy -= c;
+	return c+(dy-2) / 6*2+2;
+}
+	\end{lstlisting}

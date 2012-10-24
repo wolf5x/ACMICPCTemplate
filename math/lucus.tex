@@ -7,7 +7,8 @@ int comLucus(int n,int m,int p)
 	for (; n && m && ans; n/=p,m/=p)
 	{
 		if (n%p>=m%p)
-			ans = ans*num[n%p]%p*getInv(num[m%p]%p)%p*getInv(num[n%p-m%p])%p;
+			ans = ans*num[n%p]%p*getInv(num[m%p]%p)%p
+				*getInv(num[n%p-m%p])%p;
 		else
 			ans=0;
 	}

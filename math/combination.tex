@@ -47,7 +47,8 @@ long long calc(int n,int m,int p)//C(n,m)%p
 	for (; n && m && ans; n/=p,m/=p)
 	{
 		if (n%p>=m%p)
-			ans = ans*num[n%p]%p*getInv(num[m%p]%p)%p*getInv(num[n%p-m%p])%p;
+			ans = ans*num[n%p]%p*getInv(num[m%p]%p)%p
+				*getInv(num[n%p-m%p])%p;
 		else
 			ans=0;
 	}

@@ -1,16 +1,22 @@
 \section{注意事项}
+	\Large
 	\hrule\ 
 	\\
-	输入输出格式？调试信息？初始化？算术溢出？数组大小？
+	输入输出格式？调试信息？初始化？算术溢出？数组大小？\\
 	\\
-	左右端点范围？acos/asin/sqrt 函数定义域？精度问题？
+	左右端点范围？acos/asin/sqrt 函数定义域？精度问题？\\
 	\\
-	二分答案？暴力？单调性？凸性？块状结构？函数式？对偶问题？
+	二分答案？暴力？单调性？凸性？块状结构？函数式？对偶问题？\\
 	\\
 	\hrule\
 	\\
+	排序的时候注意一下是否需要记录排序前的位置！\\
+	\\
 	使用map进行映射的时候，不要用下面这种不安全写法
-	\begin{lstlisting}[language=c++]
+	\begin{lstlisting}[language=c++,
+    basicstyle=\sf\Large,
+    numberstyle=\sf\Large,
+    commentstyle=\sf\Large]
 if (mp.find(s) == mp.end())
 	mp[s] = mp.size()-1;//挂成狗
 
@@ -47,7 +53,10 @@ if (mp.find(s) == mp.end())
 	\\
 	结构体里面带数组会非常慢,有时候 BFS 把数组压成数字会快很多。\\
 	\\
-	\begin{lstlisting}[language=c++]
+	\begin{lstlisting}[language=c++,
+    basicstyle=\sf\Large,
+    numberstyle=\sf\Large,
+    commentstyle=\sf\Large]
 void fun(int a[])
 {
 	printf("%d\n",sizeof(a));
@@ -58,10 +67,14 @@ void fun(int a[])
 	sqrt 某些时候会出现 sqrt(-0.00)的问题。\\
 	\\
 	将code::blocks的默认终端改成gnome-terminal
-	\begin{lstlisting}[language=c++]
+	\begin{lstlisting}[language=c++,
+    basicstyle=\sf\Large,
+    numberstyle=\sf\Large,
+    commentstyle=\sf\Large]
 gnome-terminal -t $TITLE -x
 	\end{lstlisting}
 	~\\
 	最小割割集找法 在残量网络中从源点出发能到的点集记为S原图中S到S’的边即是最小割集\\
 	\\
 	double全局变量初始值可能不是$0$\\
+	\normalsize

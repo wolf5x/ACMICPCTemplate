@@ -294,7 +294,77 @@ int main()
 	\end{lstlisting}
 	\subsubsection{维护括号序列}
 	不需要哨兵。\\
-	见注释。\\
+	\\
+	合并操作：\\
+	\\
+	先转成下面的样子：\\
+	\[\pstree[levelsep=35pt]{\Tcircle{lv}}
+	{
+		\Tcircle{c0}
+		\Tcircle{c1}
+	}
+	~~~~~~~~~~
+	\pstree[levelsep=35pt]{\Tcircle{lu}}
+	{
+		\Tcircle{}
+		\pstree[levelsep=35pt]{\Tcircle{ru}}
+		{
+			\Tcircle{c2}
+			\Tcircle{}
+		}
+	}\]
+	再链接成这样：
+	\[\pstree[levelsep=35pt]{\Tcircle{lv}}
+	{
+		\Tcircle{c0}
+		\pstree[levelsep=35pt]{\Tcircle{lu}}
+		{
+			\Tcircle{}
+			\pstree[levelsep=35pt]{\Tcircle{ru}}
+			{
+				\Tcircle{c2}
+				\Tcircle{c1}
+			}
+		}
+	}\]
+	~\\
+	分离操作：\\
+	\\
+	先把lu和ru转上去：\\
+	\[\pstree[levelsep=35pt]{\Tcircle{lu}}
+	{
+		\pstree[levelsep=35pt]{\Tcircle{c0}}
+		{
+			\Tcircle{prev}
+			\Tcircle{last}
+		}
+		\pstree[levelsep=35pt]{\Tcircle{ru}}
+		{
+			\Tcircle{c1}
+			\Tcircle{c2}
+		}
+	}\]
+	把c0和c2从原来的位置断开\\
+	然后接上：\\
+	\[\pstree[levelsep=35pt]{\Tcircle{last}}
+	{
+		\pstree[levelsep=35pt]{\Tcircle{c0}}
+		{
+			\Tcircle{prev}
+			\Tcircle{}
+		}
+		\Tcircle{c2}
+	}
+	~~~~~~~~~~
+	\pstree[levelsep=35pt]{\Tcircle{lu}}
+	{
+		\Tcircle{}
+		\pstree[levelsep=35pt]{\Tcircle{ru}}
+		{
+			\Tcircle{c1}
+			\Tcircle{}
+		}
+	}\]
 	\begin{lstlisting}[language=c++]
 #include <iostream>
 #include <cstdio>
@@ -417,20 +487,6 @@ struct SplayTree
 		return now;
 	}
 	//`把u接到v下面去，边权为w`
-	//`先转成下面的样子：`
-	//  lv		lu
-	//  /\		 \
-	//c0 c1		 ru
-	//			  /
-	//			c2  
-	//`再链接成这样：`
-	//  lv
-	//  /\
-	//c0  lu
-	//	 \
-	//	  ru
-	//	  /\
-	//	c2  c1
 	//`需要保证u是某棵树的根`
 	void Link(int u,int v,int w)
 	{
@@ -452,19 +508,6 @@ struct SplayTree
 		Splay(l[u],nil);
 	}
 	//`把u为根的子树分离开`
-	//	   lu
-	//	  /  \
-	//	 /	\
-	//   c0	 ru
-	//  / \	/ \
-	//   last c1 c2
-	//`把c0和c2断开`
-	//`然后接上？`
-	//		 lu
-	//		  \
-	//   last	ru
-	//  / \	 / 
-	// c0  c2  c1
 	int Split(int u)
 	{
 		Splay(l[u],nil);

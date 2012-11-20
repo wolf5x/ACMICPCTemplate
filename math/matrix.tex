@@ -4,6 +4,42 @@
 struct Matrix
 {
 	int a[52][52];
+	void clear()
+	{
+		memset(a,0,sizeof(a));
+	}
+	int det(int n)//求行列式的值模上一个数，需要预处理逆元
+	{
+		for (int i = 0;i < n;i++)
+			for (int j = 0;j < n;j++)
+				a[i][j] = (a[i][j]%mod+mod)%mod;
+		int res = 1;
+		for (int i = 0;i < n;i++)
+		{
+			for (int j = i;j < n;j++)
+				if (a[j][i] != 0)
+				{
+					for (int k = i;k < n;k++)
+						swap(a[i][k],a[j][k]);
+					if (i != j)
+						res = (res+mod)%mod;
+					break;
+				}
+			if (a[i][i] == 0)
+			{
+				res = -1;//不存在
+				break;
+			}
+			for (int j = i+1;j < n;j++)
+			{
+				int mut = (a[j][i]*inv[a[i][i]])%mod;
+				for (int k = i;k < n;k++)
+					a[j][k] = (a[j][k]-(a[i][k]*mut)%mod+mod)%mod;
+			}
+			res = (res*a[i][i])%mod;
+		}
+		return res;
+	}
 	Matrix operator * (const Matrix &b)const
 	{
 		Matrix res;

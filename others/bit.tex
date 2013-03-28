@@ -43,3 +43,13 @@ for (int s = (1 << k)-1,u = 1 << n; s < u;)
 	s = (s+b)|(((s^(s+b))>>2)/b);
 }
 	\end{lstlisting}
+
+	\subsubsection{枚举x的二进制非空子集}
+	\begin{lstlisting}[language=c++]
+void subsets(int x) {
+    for(int i = x; i; i = x&(i-1)) {
+        //printbin(i);
+    }
+}
+    \end{lstlisting}
+
